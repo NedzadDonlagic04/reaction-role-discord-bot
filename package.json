@@ -7,8 +7,8 @@
     "main": "dist/main.js",
     "scripts": {
         "prepare": "husky init",
-        "lint": "eslint './src/**/*.{ts}'",
-        "lint-fix": "eslint './src/**/*.{ts}' --fix",
+        "lint": "eslint",
+        "lint-fix": "eslint --fix",
         "format": "prettier --write .",
         "clean": "rimraf ./dist",
         "compile": "tsc",
@@ -27,6 +27,7 @@
         "discord.js": "^14.21.0"
     },
     "devDependencies": {
+        "@types/dotenv": "^6.1.1",
         "@types/node": "^24.1.0",
         "@typescript-eslint/eslint-plugin": "^8.38.0",
         "@typescript-eslint/parser": "^8.38.0",
