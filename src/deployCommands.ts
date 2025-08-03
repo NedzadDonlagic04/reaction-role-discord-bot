@@ -1,7 +1,12 @@
-import { REST, Routes, RESTPostAPIChatInputApplicationCommandsJSONBody, RESTPutAPIApplicationGuildCommandsResult } from "discord.js";
-import getAllObjsFromDir from "./utils/getAllObjsFromDir.js";
+import {
+    REST,
+    Routes,
+    RESTPostAPIChatInputApplicationCommandsJSONBody,
+    RESTPutAPIApplicationGuildCommandsResult,
+} from 'discord.js';
+import getAllObjsFromDir from './utils/getAllObjsFromDir.js';
 import dotenv from 'dotenv';
-import { SlashCommand } from "./types/SlashCommand.js";
+import { SlashCommand } from './types/SlashCommand.js';
 
 dotenv.config();
 
@@ -15,7 +20,9 @@ for (const slashCommand of slashCommands) {
 }
 
 if (!DISCORD_BOT_TOKEN) {
-    throw new TypeError('DISCORD_BOT_TOKEN is not a defined environment variable');
+    throw new TypeError(
+        'DISCORD_BOT_TOKEN is not a defined environment variable',
+    );
 } else if (!CLIENT_ID) {
     throw new TypeError('CLIENT_ID is not a defined environment variable');
 } else if (!GUILD_ID) {
@@ -24,20 +31,23 @@ if (!DISCORD_BOT_TOKEN) {
 
 const rest = new REST().setToken(DISCORD_BOT_TOKEN);
 
-const main = async() => {
+const main = async () => {
     try {
-        console.log(`Started refreshing ${commands.length} application (/) commands.`);
+        console.log(
+            `Started refreshing ${commands.length} application (/) commands.`,
+        );
 
-        const data = await rest.put(
+        const data = (await rest.put(
             Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
-            { body: commands }
-        ) as RESTPutAPIApplicationGuildCommandsResult;
+            { body: commands },
+        )) as RESTPutAPIApplicationGuildCommandsResult;
 
-        console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-    } catch(error) {
+        console.log(
+            `Successfully reloaded ${data.length} application (/) commands.`,
+        );
+    } catch (error) {
         console.error(error);
     }
-}
+};
 
 main();
-
