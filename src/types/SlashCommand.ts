@@ -1,8 +1,8 @@
 import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
 
 export interface SlashCommand {
-    data: SlashCommandBuilder;
-    execute: (interaction: CommandInteraction) => Promise<void>;
+    readonly data: SlashCommandBuilder;
+    readonly execute: (interaction: CommandInteraction) => Promise<void>;
 }
 
 export function isSlashCommand(object: any): object is SlashCommand {

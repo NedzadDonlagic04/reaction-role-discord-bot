@@ -1,7 +1,7 @@
 class Event {
-    public name: string;
-    public execute: (...args: any) => void | Promise<void>;
-    public once: boolean;
+    public readonly name: string;
+    public readonly execute: (...args: any) => void | Promise<void>;
+    public readonly once: boolean;
 
     constructor(
         name: string,
