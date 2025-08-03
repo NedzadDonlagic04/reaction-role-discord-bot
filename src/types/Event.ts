@@ -6,9 +6,9 @@ class Event {
     constructor(
         name: string,
         execute: (...args: any) => void | Promise<void>,
-        once: boolean = false
+        once: boolean = false,
     ) {
-        this.name = name; 
+        this.name = name;
         this.execute = execute;
         this.once = once ?? false;
     }
