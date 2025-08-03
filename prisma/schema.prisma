@@ -16,6 +16,6 @@ datasource db {
 model EmojiRoles {
     id Int @id @default(autoincrement())
     messageId String
-    emoji String
+    emote String
     role String
 }
