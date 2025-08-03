@@ -1,44 +1,34 @@
 import dotenv from 'dotenv';
-import { Events, GatewayIntentBits } from 'discord.js';
+import { GatewayIntentBits } from 'discord.js';
+import Event from './types/Event.js';
+import { SlashCommand } from './types/SlashCommand.js';
 import DiscordClient from './types/DiscordClient.js';
-import getSlashCommandsFromFiles from './utils/getCommandsFromFiles.js';
+import getAllObjsFromDir from './utils/getAllObjsFromDir.js';
 
 dotenv.config();
 
+const { DISCORD_BOT_TOKEN } = process.env;
+
 const client = new DiscordClient({ intents: [GatewayIntentBits.Guilds] });
-const slashCommands = await getSlashCommandsFromFiles();
+
+const slashCommands = await getAllObjsFromDir<SlashCommand>('commands');
+const events = await getAllObjsFromDir<Event>('events');
 
 for (const slashCommand of slashCommands) {
     client.commands.set(slashCommand.data.name, slashCommand);
 }
 
-client.on(Events.InteractionCreate, async(interaction) => {
-    if (!interaction.isChatInputCommand()) {
-        return;
+for (const event of events) {
+    if (event.once) {
+        client.once(event.name, event.execute);
+    } else {
+        client.on(event.name, event.execute);
     }
-
-    const interactionClient = interaction.client as DiscordClient;
-
-    const slashCommand = interactionClient.commands.get(interaction.commandName);
-
-    if (!slashCommand) {
-        console.error(`No command with the name ${interaction.commandName} found`);
-        return;
-    }
-
-    try {
-        await slashCommand.execute(interaction);
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-const main = async () => {
-    client.login(process.env.DISCORD_BOT_TOKEN);
-
-    await new Promise(resolve => client.once(Events.ClientReady, resolve));
-
-    console.log('Logged in');
 }
 
-main();
+try {
+    await client.login(DISCORD_BOT_TOKEN);
+} catch (error) {
+    console.error(`Failed to login with error: ${error}`);
+    process.exit(1);
+}

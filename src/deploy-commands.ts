@@ -1,13 +1,14 @@
 import { REST, Routes, RESTPostAPIChatInputApplicationCommandsJSONBody, RESTPutAPIApplicationGuildCommandsResult } from "discord.js";
-import getSlashCommandsFromFiles from "./utils/getCommandsFromFiles.js";
+import getAllObjsFromDir from "./utils/getAllObjsFromDir.js";
 import dotenv from 'dotenv';
+import { SlashCommand } from "./types/SlashCommand.js";
 
 dotenv.config();
 
 const { DISCORD_BOT_TOKEN, CLIENT_ID, GUILD_ID } = process.env;
 
 const commands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
-const slashCommands = await getSlashCommandsFromFiles();
+const slashCommands = await getAllObjsFromDir<SlashCommand>('commands');
 
 for (const slashCommand of slashCommands) {
     commands.push(slashCommand.data.toJSON());
@@ -39,3 +40,4 @@ const main = async() => {
 }
 
 main();
+
