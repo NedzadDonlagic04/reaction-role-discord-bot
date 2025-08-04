@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { GatewayIntentBits } from 'discord.js';
+import { GatewayIntentBits, Partials } from 'discord.js';
 import Event from './types/Event.js';
 import { SlashCommand } from './types/SlashCommand.js';
 import DiscordClient from './types/DiscordClient.js';
@@ -9,7 +9,14 @@ dotenv.config();
 
 const { DISCORD_BOT_TOKEN } = process.env;
 
-const client = new DiscordClient({ intents: [GatewayIntentBits.Guilds] });
+const client = new DiscordClient({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildMembers,
+    ],
+    partials: [Partials.Message, Partials.Reaction, Partials.User],
+});
 
 const slashCommands = await getAllObjsFromDir<SlashCommand>('commands');
 const events = await getAllObjsFromDir<Event>('events');
