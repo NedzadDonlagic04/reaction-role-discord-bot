@@ -1,4 +1,7 @@
 import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
     ChatInputCommandInteraction,
     Collection,
     MessageFlags,
@@ -7,6 +10,11 @@ import {
     SlashCommandStringOption,
     TextChannel,
 } from 'discord.js';
+import {
+    doesRegistrationExist,
+    endRegistration,
+    startRegistration,
+} from '../utils/registrations.js';
 
 const findMessageInChannels = async (
     messageId: string,
@@ -41,7 +49,16 @@ const registerReactionRole = {
                 .setRequired(true),
         ),
     execute: async (interaction: ChatInputCommandInteraction) => {
-        const messageId = interaction.options.getString('message-id');
+        const user = interaction.user;
+
+        if (doesRegistrationExist(user.id)) {
+            return interaction.reply({
+                content: 'Cannot start multiple message registers at once',
+                flags: MessageFlags.Ephemeral,
+            });
+        }
+
+        let messageId = interaction.options.getString('message-id');
 
         if (!interaction.guild) {
             return interaction.reply({
@@ -55,6 +72,8 @@ const registerReactionRole = {
             });
         }
 
+        messageId = messageId.trim();
+
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         try {
@@ -67,9 +86,30 @@ const registerReactionRole = {
                 );
             }
 
-            await interaction.editReply(
-                `Registered message made by "${message.author}" with the content "${message.content}"`,
+            const setEmotesAndRolesBtn = new ButtonBuilder()
+                .setCustomId('set-emotes-and-roles')
+                .setLabel('Set Emotes And Roles')
+                .setStyle(ButtonStyle.Primary);
+
+            const btnRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+                setEmotesAndRolesBtn,
             );
+
+            const MINUTES_TO_WAIT = 1;
+            startRegistration(user, message);
+            setTimeout(async () => {
+                endRegistration(user.id);
+                try {
+                    await interaction.deleteReply();
+                } catch (error) {
+                    console.error(`Error: ${error}`);
+                }
+            }, MINUTES_TO_WAIT * 60_000);
+
+            await interaction.editReply({
+                content: `Registered message made by "${message.author}" with the content "${message.content}"`,
+                components: [btnRow],
+            });
         } catch (error) {
             if (error instanceof TypeError) {
                 await interaction.editReply(error.message);
