@@ -31,23 +31,19 @@ if (!DISCORD_BOT_TOKEN) {
 
 const rest = new REST().setToken(DISCORD_BOT_TOKEN);
 
-const main = async () => {
-    try {
-        console.log(
-            `Started refreshing ${commands.length} application (/) commands.`,
-        );
+try {
+    console.log(
+        `Started refreshing ${commands.length} application (/) commands.`,
+    );
 
-        const data = (await rest.put(
-            Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
-            { body: commands },
-        )) as RESTPutAPIApplicationGuildCommandsResult;
+    const data = (await rest.put(
+        Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
+        { body: commands },
+    )) as RESTPutAPIApplicationGuildCommandsResult;
 
-        console.log(
-            `Successfully reloaded ${data.length} application (/) commands.`,
-        );
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-main();
+    console.log(
+        `Successfully reloaded ${data.length} application (/) commands.`,
+    );
+} catch (error) {
+    console.error(error);
+}
