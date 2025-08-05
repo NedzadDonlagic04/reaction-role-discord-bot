@@ -58,21 +58,23 @@ const registerReactionRole = {
             });
         }
 
-        let messageId = interaction.options.getString('message-id');
+        const channelMessageId = interaction.options.getString('message-id');
 
         if (!interaction.guild) {
             return interaction.reply({
                 content: 'This command can only be used in a server channel',
                 flags: MessageFlags.Ephemeral,
             });
-        } else if (!messageId) {
+        } else if (!channelMessageId) {
             return interaction.reply({
                 content: 'Message id not valid',
                 flags: MessageFlags.Ephemeral,
             });
         }
 
-        messageId = messageId.trim();
+        // Because the id will be in a format <channelId>-<messageId>
+        // we split the string by '-' and take the 2nd element
+        const messageId = channelMessageId.trim().split('-')[1];
 
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
