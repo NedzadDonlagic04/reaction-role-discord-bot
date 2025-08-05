@@ -15,6 +15,7 @@ import {
     endRegistration,
     startRegistration,
 } from '../utils/registrations.js';
+import { prisma } from '../global.js';
 
 const findMessageInChannels = async (
     messageId: string,
@@ -76,6 +77,19 @@ const registerReactionRole = {
         // we split the string by '-' and take the 2nd element
         const messageId = channelMessageId.trim().split('-')[1];
 
+        const registeredMessages = await prisma.emojiRoles.findMany({
+            where: {
+                messageId: messageId,
+            },
+        });
+
+        if (registeredMessages.length !== 0) {
+            return interaction.reply({
+                content: `This message is already registered with ${registeredMessages.length} emojis / roles`,
+                flags: MessageFlags.Ephemeral,
+            });
+        }
+
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         try {
@@ -109,7 +123,7 @@ const registerReactionRole = {
             }, MINUTES_TO_WAIT * 60_000);
 
             await interaction.editReply({
-                content: `Registered message made by "${message.author}" with the content "${message.content}"`,
+                content: 'Fill out and submit the modal to finish registration',
                 components: [btnRow],
             });
         } catch (error) {
