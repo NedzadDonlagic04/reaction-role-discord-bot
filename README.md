@@ -20,6 +20,7 @@ Built using Node.js, Prisma ORM, TypeScript, Docker, and PostgreSQL.
 
 - Register messages with emoji role pairs  
 - Add/remove roles based on user reactions/unreactions based on previous registration step 
+- Unregister messages
 
 ---
 
@@ -52,7 +53,7 @@ Built using Node.js, Prisma ORM, TypeScript, Docker, and PostgreSQL.
     Now paste the contents of the template below into it
 
    ```
-   NODE_ENV=development
+   NODE_ENV=production
    CI=false
    DISCORD_BOT_TOKEN=
    CLIENT_ID=
@@ -73,3 +74,21 @@ Built using Node.js, Prisma ORM, TypeScript, Docker, and PostgreSQL.
     - Go to the "General information" tab, copy the application id and assign it to the CLIENT_ID environment variable inside the .env file
     - Find the server you want the bot to join, right click and select the option "Copy Server ID"and assign it to the GUILD_ID environment variable inside the .env file
     - DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME assign whatever values you configure inside postgres
+
+
+1. **Add discord bot to your server**
+    - Go to [discord's developer portal](https://discord.com/developers/applications)
+    - Go to the "OAuth2" tab and under the "OAuth2 URL Generator"
+    - For "Scopes" pick "applications.commands" and "bot"
+    - For "Bot permissions" pick "Manage Roles", "View Channels", "Manage Messages", "Read Message History" and "Add Reactions"
+    - Copy the generated URL, paste it in an empty browser tab and when discord opens allow the bot to join your server
+    - Go to "Server settings" (of the server the bot is in) > "Roles" and drag the bot's role above the ones you plan to use
+
+1. **Final steps**
+
+   ```bash
+   npx prisma generate
+   npm run build
+   node ./dist/deployCommands.js
+   npm run prod
+
