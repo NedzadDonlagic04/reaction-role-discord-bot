@@ -42,7 +42,7 @@ const handleButtonInteraction = async (
 ) => {
     const emojisAndRolesModal = new ModalBuilder()
         .setCustomId('emojis-and-roles-modal')
-        .setTitle('Setup Emotes & Roles');
+        .setTitle('Set Emojis & Roles');
 
     const rolesIdTxtInput = new TextInputBuilder()
         .setCustomId('roles-id-txt-input')
