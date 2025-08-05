@@ -17,10 +17,13 @@ export const startRegistration = (
     message: Message<true>,
 ): Collection<string, UserMessage> =>
     activeRegistrations.set(user.id, { user, message });
+
 export const doesRegistrationExist = (userId: string): boolean =>
     activeRegistrations.has(userId);
+
 export const endRegistration = (userId: string): boolean =>
     activeRegistrations.delete(userId);
+
 export const findRegistration = (
     predicate: (value: UserMessage) => boolean,
 ): UserMessage | undefined => activeRegistrations.find(predicate);
