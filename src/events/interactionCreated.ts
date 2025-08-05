@@ -10,6 +10,7 @@ import {
     ButtonInteraction,
     ModalSubmitInteraction,
     MessageFlags,
+    EmbedBuilder,
 } from 'discord.js';
 import Event from './../types/Event.js';
 import DiscordClient from '../types/DiscordClient.js';
@@ -99,12 +100,13 @@ const handleModalSubmitInteraction = async (
     if (!userMessage) {
         return interaction.reply({
             content:
-                'Unexpected error occurred, no message id saved in registration step',
+                'Unexpected error occurred, no message saved in registration step',
             flags: MessageFlags.Ephemeral,
         });
     }
 
-    const messageId = userMessage.message.id;
+    const message = userMessage.message;
+    const messageId = message.id;
 
     for (let i = 0; i < roleIds.length; ++i) {
         const roleId = roleIds[i];
@@ -121,8 +123,13 @@ const handleModalSubmitInteraction = async (
         await userMessage.message.react(emojiName);
     }
 
+    const messageLink = `https://discord.com/channels/${message.guild.id}/${message.channel.id}/${message.id}`;
+    const embeddedMessage = new EmbedBuilder()
+        .setTitle('Reaction Role Registered')
+        .setDescription(`[Jump to message](${messageLink})`);
+
     return interaction.reply({
-        content: `Registered ${roleIds.length} roles and emojis`,
+        embeds: [embeddedMessage],
         flags: MessageFlags.Ephemeral,
     });
 };
