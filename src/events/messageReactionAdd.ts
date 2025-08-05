@@ -59,9 +59,10 @@ const messageReactionAdd = new Event(
         });
 
         if (!result) {
-            console.error(
+            // Useful for debuggin
+            /* console.error(
                 `No result exists for message id "${messageId}" and emoji "${emojiName}"`,
-            );
+            ); */
             return;
         }
 

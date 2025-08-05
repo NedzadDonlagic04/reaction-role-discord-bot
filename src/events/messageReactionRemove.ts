@@ -52,9 +52,10 @@ const messageReactionRemove = new Event(
         });
 
         if (!result) {
-            console.error(
+            // Useful for debugging
+            /* console.error(
                 `No result exists for message id "${messageId}" and emoji "${emojiName}"`,
-            );
+            ); */
             return;
         }
 
