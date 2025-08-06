@@ -56,7 +56,7 @@ const registerReactionRole = {
 
         if (doesRegistrationExist(user.id)) {
             return interaction.reply({
-                content: `Cannot start multiple message registers at once, wait for the previous one to time out, it should take around ~${MINUTES_TO_WAIT} since the registration started`,
+                content: `Cannot start multiple message registers at once, wait for the previous one to time out, it should take around ~${MINUTES_TO_WAIT} minutes since the registration started`,
                 flags: MessageFlags.Ephemeral,
             });
         }
