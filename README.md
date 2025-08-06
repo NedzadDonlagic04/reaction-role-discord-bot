@@ -12,7 +12,8 @@
 ## Description
 
 A Discord.js bot that allows users to register messages where reacting with specific emotes adds or removes roles automatically.  
-Built using Node.js, Prisma ORM, TypeScript, Docker, and PostgreSQL.
+Built using Node.js, Prisma ORM, TypeScript, Docker, and PostgreSQL.  
+Not all of these tools were essential to build the discord bot, I included them to showcase my skills.
 
 ---
 
