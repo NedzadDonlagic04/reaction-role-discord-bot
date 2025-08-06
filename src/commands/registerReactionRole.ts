@@ -50,11 +50,13 @@ const registerReactionRole = {
                 .setRequired(true),
         ),
     execute: async (interaction: ChatInputCommandInteraction) => {
+        const MINUTES_TO_WAIT = 3;
+
         const user = interaction.user;
 
         if (doesRegistrationExist(user.id)) {
             return interaction.reply({
-                content: 'Cannot start multiple message registers at once',
+                content: `Cannot start multiple message registers at once, wait for the previous one to time out, it should take around ~${MINUTES_TO_WAIT} since the registration started`,
                 flags: MessageFlags.Ephemeral,
             });
         }
@@ -111,7 +113,6 @@ const registerReactionRole = {
                 setEmotesAndRolesBtn,
             );
 
-            const MINUTES_TO_WAIT = 1;
             startRegistration(user, message);
             setTimeout(async () => {
                 endRegistration(user.id);
