@@ -6,7 +6,7 @@ services:
         DATABASE_URL: ${DATABASE_URL}
     env_file: .env.docker
     volumes: 
-        - .:/app
+        - /app/node_modules
     depends_on: 
         - db
 
