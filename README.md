@@ -43,7 +43,6 @@ Built using Node.js, Prisma ORM, TypeScript, Docker, and PostgreSQL.
    ```bash
    npm install
 
-
 1. **Create .env file**
 
     ```bash
@@ -92,3 +91,40 @@ Built using Node.js, Prisma ORM, TypeScript, Docker, and PostgreSQL.
    node ./dist/deployCommands.js
    npm run prod
 
+### Setup Instructions With Docker
+
+1. **Clone the repo**
+
+   ```bash
+   git clone https://github.com/NedzadDonlagic04/reaction-role-discord-bot.git
+   cd reaction-role-discord-bot
+
+1. **Create .env.docker file**
+
+    ```bash
+    touch .env.docker
+    ```
+
+    Now paste the contents of the template below into it
+
+   ```
+   NODE_ENV=production
+   CI=false
+   DISCORD_BOT_TOKEN=
+   CLIENT_ID=
+   GUILD_ID=
+   DB_USER=
+   DB_PASS=
+   DB_HOST=db
+   DB_PORT=
+   DB_NAME=
+   DATABASE_URL="postgresql://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
+   ```
+
+   Do note that the file could also be called .env, I had to separate .envs due to testing with docker and without docker. Also the environment variables are set the same way as in the "Without Docker" section.
+
+1. **Run docker command**
+
+    ```bash
+    docker compose --env-file .env.docker up
+    ```
