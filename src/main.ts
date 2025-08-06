@@ -4,10 +4,11 @@ import Event from './types/Event.js';
 import { SlashCommand } from './types/SlashCommand.js';
 import DiscordClient from './types/DiscordClient.js';
 import getAllObjsFromDir from './utils/getAllObjsFromDir.js';
+import http from 'http';
 
 dotenv.config();
 
-const { DISCORD_BOT_TOKEN } = process.env;
+const { DISCORD_BOT_TOKEN, PORT } = process.env;
 
 const client = new DiscordClient({
     intents: [
@@ -39,3 +40,8 @@ try {
     console.error(`Failed to login with error: ${error}`);
     process.exit(1);
 }
+
+// Because atm I am using render's free tier to host this bot
+// I can't register it as a background worker so I'm using a web service
+// which requires listening on some port
+http.createServer((_, res) => res.end('OK')).listen(PORT || 3000);

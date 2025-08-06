@@ -31,6 +31,9 @@ Not all of these tools were essential to build the discord bot, I included them 
 - [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)  
 - [PostgreSQL](https://www.postgresql.org/) (optional if using Docker)
 
+### Disclaimer
+As of writing this I am hosting this bot on render's free tier, which requires me to listen on a certain port, so inside the .env and .env.docker add a PORT environment variable if you want to listen on a different port than 3000 (the default I set).
+
 ### Setup Instructions Without Docker
 
 1. **Clone the repo**
