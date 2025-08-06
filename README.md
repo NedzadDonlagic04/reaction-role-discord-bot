@@ -128,3 +128,5 @@ Built using Node.js, Prisma ORM, TypeScript, Docker, and PostgreSQL.
     ```bash
     docker compose --env-file .env.docker up
     ```
+
+    In case you didn't name the ".env" file ".env.docker", like I did in the previous step, you can omit the "--env-file .env.docker" flag and argument.
