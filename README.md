@@ -17,7 +17,7 @@ Not all of these tools were essential to build the discord bot, I included them 
 
 ---
 
-## Features
+## 🛠️Features
 
 - Register messages with emoji role pairs  
 - Add/remove roles based on user reactions/unreactions based on previous registration step 
@@ -25,16 +25,16 @@ Not all of these tools were essential to build the discord bot, I included them 
 
 ---
 
-## Getting Started
+## 📋Getting Started
 
 - [Node.js](https://nodejs.org/) v20 or later  
 - [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)  
 - [PostgreSQL](https://www.postgresql.org/) (optional if using Docker)
 
-### Disclaimer
+### ⚠️Disclaimer
 As of writing this I am hosting this bot on render's free tier, which requires me to listen on a certain port, so inside the .env and .env.docker add a PORT environment variable if you want to listen on a different port than 3000 (the default I set).
 
-### Setup Instructions Without Docker
+### 🚀Setup Instructions Without Docker
 
 1. **Clone the repo**
 
@@ -95,7 +95,7 @@ As of writing this I am hosting this bot on render's free tier, which requires m
    node ./dist/deployCommands.js
    npm run prod
 
-### Setup Instructions With Docker
+### 🐳Setup Instructions With Docker
 
 1. **Clone the repo**
 
