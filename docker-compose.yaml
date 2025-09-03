@@ -2,11 +2,7 @@ services:
     discord-bot:
         build:
             context: .
-            args:
-                DATABASE_URL: ${DATABASE_URL}
         env_file: .env.docker
-        volumes:
-            - /app/node_modules
         depends_on:
             - db
 
